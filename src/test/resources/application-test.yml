@@ -27,3 +27,12 @@ spring:
     property-naming-strategy: SNAKE_CASE
     serialization:
       write-dates-as-timestamps: false
+
+
+# ─── Luxury Platform Test Security ────────────────────────────────────────────
+luxury:
+  security:
+    encryption:
+      key: test-only-32-byte-key-for-unit!!
+    fls:
+      enabled: true

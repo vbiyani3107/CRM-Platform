@@ -1,6 +1,7 @@
 package com.luxury.common.exception;
 
 import com.luxury.common.dto.ApiResponse;
+import com.luxury.core.api.exception.DynamicValidationException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,20 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.fail(
                         "https://luxury.com/errors/validation",
                         "Validation Error",
+                        detail,
+                        400
+                ));
+    }
+
+    @ExceptionHandler(DynamicValidationException.class)
+    public ResponseEntity<ApiResponse<Void>> handleDynamicValidation(DynamicValidationException ex) {
+        String detail = String.join("; ", ex.getViolations());
+        log.warn("Dynamic validation error: {}", detail);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.fail(
+                        "https://luxury.com/errors/dynamic-validation",
+                        "Dynamic Validation Error",
                         detail,
                         400
                 ));

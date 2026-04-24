@@ -32,6 +32,19 @@
         </dependency>
 
         <!-- ═══════════════════════════════════════════════════════════
+             Security: Spring Security + Entra ID (OIDC/JWT)
+             ═══════════════════════════════════════════════════════════ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
+
+        <!-- ═══════════════════════════════════════════════════════════
              Persistence: JPA + PostgreSQL + Flyway + pgvector
              ═══════════════════════════════════════════════════════════ -->
         <dependency>
@@ -87,6 +100,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
@@ -128,6 +147,17 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <!-- Unit tests — exclude integration tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*IT.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>

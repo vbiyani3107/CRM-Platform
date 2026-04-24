@@ -45,11 +45,26 @@ spring:
       write-dates-as-timestamps: false
     default-property-inclusion: non_null
 
+  # ─── Security: Entra ID (OIDC / JWT) ────────────────────────────────────────
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${ENTRA_ID_ISSUER_URI:https://login.microsoftonline.com/common/v2.0}
+
 # ─── Server ───────────────────────────────────────────────────────────────────
 server:
   port: 8080
   servlet:
     context-path: /api
+
+# ─── Luxury Platform Security ─────────────────────────────────────────────────
+luxury:
+  security:
+    encryption:
+      key: ${LUXURY_ENCRYPTION_KEY:dev-only-32-byte-key-for-local!!}
+    fls:
+      enabled: true
 
 # ─── Logging ──────────────────────────────────────────────────────────────────
 logging:
