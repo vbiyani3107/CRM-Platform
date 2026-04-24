@@ -1,0 +1,23 @@
+# Build output
+target/
+
+# Java class files
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Implementation code (in-progress, not ready for repo)
+src/
+pom.xml
+docker-compose.yml
+generate_guides.py
