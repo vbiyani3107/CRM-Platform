@@ -1,0 +1,74 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# Bespoke Luxury Platform — Local Development Configuration
+# ═══════════════════════════════════════════════════════════════════════════════
+
+spring:
+  application:
+    name: luxury-core
+
+  # ─── Database ───────────────────────────────────────────────────────────────
+  datasource:
+    url: jdbc:postgresql://localhost:5432/luxury_brand
+    username: luxury
+    password: luxury_dev
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  # ─── JPA / Hibernate ───────────────────────────────────────────────────────
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: luxury_brand
+        format_sql: true
+    show-sql: false
+
+  # ─── Flyway ────────────────────────────────────────────────────────────────
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    schemas:
+      - luxury_brand
+    locations:
+      - classpath:db/migration
+
+  # ─── Jackson (snake_case globally) ─────────────────────────────────────────
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+  # ─── Security: Entra ID (OIDC / JWT) ────────────────────────────────────────
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${ENTRA_ID_ISSUER_URI:https://login.microsoftonline.com/common/v2.0}
+
+# ─── Server ───────────────────────────────────────────────────────────────────
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# ─── Luxury Platform Security ─────────────────────────────────────────────────
+luxury:
+  security:
+    encryption:
+      key: ${LUXURY_ENCRYPTION_KEY:dev-only-32-byte-key-for-local!!}
+    fls:
+      enabled: true
+
+# ─── Logging ──────────────────────────────────────────────────────────────────
+logging:
+  level:
+    com.luxury: DEBUG
+    org.hibernate.SQL: WARN
+    org.flywaydb: INFO

@@ -1,0 +1,38 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# Test Profile — Uses H2 in-memory for unit tests (no pgvector)
+# Integration tests use Testcontainers with pgvector/pgvector:pg16
+# ═══════════════════════════════════════════════════════════════════════════════
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:luxury_test;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS luxury_brand
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        default_schema: luxury_brand
+    show-sql: true
+
+  flyway:
+    enabled: false
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    serialization:
+      write-dates-as-timestamps: false
+
+
+# ─── Luxury Platform Test Security ────────────────────────────────────────────
+luxury:
+  security:
+    encryption:
+      key: test-only-32-byte-key-for-unit!!
+    fls:
+      enabled: true

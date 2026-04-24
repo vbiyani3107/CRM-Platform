@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: luxury-postgres
+    environment:
+      POSTGRES_DB: luxury_brand
+      POSTGRES_USER: luxury
+      POSTGRES_PASSWORD: luxury_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - luxury_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U luxury -d luxury_brand"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  luxury_pgdata:
+    driver: local

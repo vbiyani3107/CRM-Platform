@@ -16,8 +16,5 @@ target/
 .DS_Store
 Thumbs.db
 
-# Implementation code (in-progress, not ready for repo)
-src/
-pom.xml
-docker-compose.yml
+# Scripts (utility, not part of core platform)
 generate_guides.py
